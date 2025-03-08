@@ -1,103 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To-Do List App</title>
-    <style>
-        /* Basic styles for the body */
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f4f4f4;
-        }
-        
-        /* Container for the to-do list */
-        .container {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
-        }
-        
-        /* Styling for input field */
-        input {
-            width: 80%;
-            padding: 8px;
-        }
-        
-        /* Styling for buttons */
-        button {
-            padding: 8px 12px;
-            cursor: pointer;
-            background: green;
-            color: white;
-            border: none;
-            border-radius: 5px;
-        }
-        
-        /* Styling for the task list */
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        
-        /* Styling for each task item */
-        li {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px;
-            background: #e4e4e4;
-            margin-top: 5px;
-            border-radius: 5px;
-        }
-        
-        /* Styling for completed tasks */
-        .completed {
-            text-decoration: line-through;
-            color: gray;
-        }
-    </style>
+    <link rel="stylesheet" href="index.css">
 </head>
+
 <body>
     <div class="container">
         <h2>To-Do List</h2>
-        
+
         <!-- Input field for adding new tasks -->
         <input type="text" id="taskInput" placeholder="Enter a task...">
-        
+
         <!-- Button to add a task -->
         <button onclick="addTask()">Add Task</button>
-        
+
         <!-- Unordered list to display tasks -->
         <ul id="taskList"></ul>
     </div>
-    
+
     <script>
         /* Function to add a new task */
         function addTask() {
-            let taskInput = document.getElementById("taskInput"); // Get input field
-            let taskText = taskInput.value.trim(); // Get input text and trim spaces
-            if (taskText === "") return; // Do nothing if input is empty
-            
-            // Create a new list item (li)
+            let taskInput = document.getElementById("taskInput");
+            let taskText = taskInput.value.trim();
+            if (taskText === "") return;
+
             let li = document.createElement("li");
-            
-            // Set inner HTML with task text and delete button
-            li.innerHTML = `
-                <span onclick="toggleTask(this)">${taskText}</span>
-                <button onclick="deleteTask(this)">X</button>
-            `;
-            
-            // Append the new task to the task list
+
+            // Create task span
+            let span = document.createElement("span");
+            span.textContent = taskText;
+
+            // Create complete button
+            let completeBtn = document.createElement("button");
+            completeBtn.textContent = "✔";
+            completeBtn.onclick = function () {
+                span.classList.toggle("completed");
+            };
+
+            // Create delete button
+            let deleteBtn = document.createElement("button");
+            deleteBtn.textContent = "X";
+            deleteBtn.onclick = function () {
+                li.remove();
+            };
+
+            li.appendChild(span);
+            li.appendChild(completeBtn);
+            li.appendChild(deleteBtn);
+
             document.getElementById("taskList").appendChild(li);
-            
-            // Clear the input field after adding a task
             taskInput.value = "";
         }
 
@@ -105,11 +61,12 @@
         function toggleTask(task) {
             task.classList.toggle("completed");
         }
-        
+
         /* Function to delete a task when the delete button is clicked */
         function deleteTask(button) {
             button.parentElement.remove(); // Remove the parent li element
         }
     </script>
 </body>
+
 </html>
